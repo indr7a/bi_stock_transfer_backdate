@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="inherit_stock_move_view" model="ir.ui.view">
+            <field name="name">stock_move_view</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date']" position="after" >
+                    <field name="move_date" invisible='1'/>
+                    <field name="move_remark"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="inherit_stockmoveline_view_form_readonly" model="ir.ui.view">
+            <field name="name">inherit.stockmoveline.form.readonly</field>
+            <field name="model">stock.move.line</field>
+            <field name="inherit_id" ref="stock.view_move_line_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lot_id']" position="after">
+                    <field name="move_remarks_line"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="inherit_stockscraporder_view_form_readonly" model="ir.ui.view">
+            <field name="name">inherit.stockscraporder.form.readonly</field>
+            <field name="model">stock.scrap</field>
+            <field name="inherit_id" ref="stock.stock_scrap_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="move_remarks_scrap"/>
+                </xpath>
+            </field>
+        </record>
+        
+
+    </data>
+</odoo>

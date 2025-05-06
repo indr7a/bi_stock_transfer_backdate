@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_change_module,change.module,model_change_module,,1,1,1,1
+access_wizard_scrap_order_backdate,wizard.scrap.order.backdate,model_wizard_scrap_order_backdate,,1,1,1,1

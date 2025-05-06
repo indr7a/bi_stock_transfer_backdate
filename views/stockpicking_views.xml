@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="inherits_stock_view" model="ir.ui.view">
+        <field name="name">stock_pick_view</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='button_validate']" position="replace">
+                <button name="button_validate_custom" type="object" string="Validate" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'assigned')]}"/>
+            </xpath>
+
+            <xpath expr="//field[@name='move_ids_without_package']/tree//field[@name='product_id']" position="after">
+                <field name="move_remark"/>
+            </xpath>
+        </field>
+    </record>
+    
+    
+    <record id="action_mass_backdate" model="ir.actions.act_window">
+            <field name="name">Update Mass Backdate</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">change.module</field>
+            <field name="view_mode">form</field>
+            <field name="binding_model_id" ref="stock.model_stock_picking"/>
+            <field name="target">new</field>
+        </record>
+    
+    
+    
+
+</odoo>
