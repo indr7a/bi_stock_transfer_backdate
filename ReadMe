@@ -1,1 +1,10 @@
 15.0.0.1 (28-1-22) : added functionality Mass update backdate and remarks on picking and Scarp order backdate functionality.
+
+16.0.0.2 ==> Fixed issue of when confirm picking at that time in journal entry date can't be updated.
+
+16.0.0.3 ==> In stock valuation layer date can't be updated when confrim picking.
+
+16.0.0.4 ==> Fixed issue of when added multiple lines in picking and confrim picking at that time last line of stock valuation line date can't be update.
+
+16.0.0.5 ==> Greened module in odoosh
+        --> Solved Multiple Assertion Errors

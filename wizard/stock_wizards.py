@@ -13,8 +13,8 @@ class RemarkSoldItem(models.TransientModel):
 	_name = "change.module"
 	_description = "Change Info"
 
-	transfer_date = fields.Datetime(String="Transfer Date")
-	remark = fields.Char(String="Remarks")
+	transfer_date = fields.Datetime(string="Transfer Date")
+	remark = fields.Char(string="Remarks")
 
 	def action_apply(self):
 		if self.transfer_date >= datetime.now():
@@ -38,21 +38,21 @@ class RemarkSoldItem(models.TransientModel):
 					data.write({'date': self.transfer_date, 'move_remark': self.remark, 'move_date': self.transfer_date})
 					for line in data.mapped('move_line_ids'):
 						line.write({'date': self.transfer_date or fields.Datetime.now()})
-					for category in data.product_id.categ_id:
-						if category.property_valuation != 'real_time':
-							custom_accountmove = self.env['account.move'].create({'date':self.transfer_date,'journal_id':data.product_id.categ_id.property_stock_journal.id,
-                                    'ref':data.location_id.name,
-                                    'stock_move_id':data.id})
 				picking.button_validate()
 				if picking.state == 'draft':
-				    picking.action_confirm()
-				    if picking.state != 'assigned':
-				        picking.action_assign()
-				        if picking.state != 'assigned':
-				            raise UserError(_("Could not reserve all requested products. Please use the \'Mark as Todo\' button to handle the reservation manually."))
+					picking.action_confirm()
+					if picking.state != 'assigned':
+						picking.action_assign()
+						if picking.state != 'assigned':
+							raise UserError(_("Could not reserve all requested products. Please use the \'Mark as Todo\' button to handle the reservation manually."))
 				for move in picking.move_ids.filtered(lambda m: m.state not in ['done', 'cancel']):
-				    for move_line in move.move_line_ids:
-				        move_line.qty_done = move_line.reserved_uom_qty
-				        
+					for move_line in move.move_line_ids:
+						move_line.qty_done = move_line.reserved_uom_qty
+						
 				picking._action_done()
+				for value in picking.move_ids.stock_valuation_layer_ids:
+					self.env.cr.execute("""UPDATE stock_valuation_layer SET create_date=%s,product_id=%s,stock_move_id=%s,company_id=%s WHERE id=%s""" ,(self.transfer_date,value.product_id.id,value.stock_move_id.id,value.company_id.id,value.id))
+				for account_move in picking.move_ids.account_move_ids:
+					self.env.cr.execute("UPDATE account_move SET date = %s WHERE id = %s",
+						[data.date, account_move.id]) 
 		return True

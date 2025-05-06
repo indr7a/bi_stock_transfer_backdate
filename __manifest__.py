@@ -3,7 +3,7 @@
 
 {
     'name'          : 'Stock Transfer Backdate and Remarks in Odoo',
-    'version'       : '16.0.0.1',
+    'version'       : '16.0.0.5',
     'category'      : 'Warehouse',
     'summary'       : 'Stock transfer backdate stock back date inventory transfer backdating stock backdate stock accounting backdate inventory backdate delivery backdate stock force date on stock transfer inventory force date stock picking backdate inventory force date stock',
     'description'   : """The stock passing same date to move and account
@@ -63,8 +63,8 @@
      entries so to avoid the problem this app will help to put custom back date and remarks.
      Custom back date will be transfer to stock entries and accounting entries  
     """,
-    'author'        : 'BrowseInfo',
-    'website'       : 'https://www.browseinfo.in',
+    'author'        : 'BROWSEINFO',
+    'website'       : 'https://www.browseinfo.com/demo-request?app=bi_stock_transfer_backdate&version=16&edition=Community',
     'currency': 'EUR',
     'price': 15, 
     'depends'       : ['base','sale_management','stock','stock_account', 'account'],
@@ -77,7 +77,7 @@
                         ],
     'installable'   : True,
     'auto_install'  : False,
-    "live_test_url":'https://youtu.be/dXTv2xhd6Og',
+    "live_test_url" : 'https://www.browseinfo.com/demo-request?app=bi_stock_transfer_backdate&version=16&edition=Community',
     "images":["static/description/Banner.gif"],
     'license': 'OPL-1' ,
 }

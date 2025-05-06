@@ -10,6 +10,7 @@ from odoo.tools import DEFAULT_SERVER_DATE_FORMAT
 
 class WizardScrapOrder(models.TransientModel):
 	_name = 'wizard.scrap.order.backdate'
+	_description="Wizard Scrap Order"
 
 	scrap_backdate = fields.Datetime('Backdate',required=True)
 	scrap_remarks = fields.Char('Remarks', required=True)
@@ -33,17 +34,16 @@ class WizardScrapOrder(models.TransientModel):
 		for stock_scrap_move in stock_scrap_id.move_id:
 			stock_scrap_move.write({'date':self.scrap_backdate,'move_remark':self.scrap_remarks})
 
-			custom_accountmove = self.env['account.move'].create({'date':self.scrap_backdate,
-				'journal_id':jornal_id.id,'stock_move_id':stock_scrap_move.id})
-
-			self.env['account.move.line'].create({'partner_id':3,'account_id':1,
-				'name':'MO Transfer','move_id':custom_accountmove.id})
-
-			custom_accountmove.action_post()
-
 			for stock_scrap_move_line in stock_scrap_move.move_line_ids:
 				stock_scrap_move_line.write({'date':stock_scrap_move.date,
 					'move_remarks_line':self.scrap_remarks})
+
+			for value in stock_scrap_move.stock_valuation_layer_ids:
+					self.env.cr.execute("""UPDATE stock_valuation_layer SET create_date=%s,product_id=%s,stock_move_id=%s,company_id=%s WHERE id=%s""" ,(self.scrap_backdate,value.product_id.id,value.stock_move_id.id,value.company_id.id,value.id))
+
+			for account_move in stock_scrap_move.account_move_ids:
+				self.env.cr.execute("UPDATE account_move SET date = %s WHERE id = %s",
+					[self.scrap_backdate, account_move.id]) 
 
 
 

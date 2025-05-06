@@ -13,7 +13,7 @@ class StockMoveUpdate(models.Model):
     move_remark = fields.Char(string="Remarks")
 
     def _action_done(self,cancel_backorder=False):
-        res = super(StockMoveUpdate, self)._action_done()
+        res = super(StockMoveUpdate, self)._action_done(cancel_backorder=cancel_backorder)
         custom_stock_picking_ids = self.env['stock.picking'].browse(self._context.get('active_id'))
         stock_type_id = self.env['stock.picking.type'].browse(self._context.get('active_id'))
         active_models1 = self._context.get('active_model')
